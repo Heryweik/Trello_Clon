@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: {
     default: siteCongig.name,
-    template: `%s | ${siteCongig.name}`
+    template: `%s | ${siteCongig.name}`,
   },
   description: siteCongig.description,
   /* Este icon es el favicon */
@@ -16,8 +16,8 @@ export const metadata: Metadata = {
     {
       url: "/logo.svg",
       href: "/logo.svg",
-    }
-  ]
+    },
+  ],
 };
 
 export default function RootLayout({

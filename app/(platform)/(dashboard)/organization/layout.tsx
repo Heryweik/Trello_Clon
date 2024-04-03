@@ -8,7 +8,6 @@ export default function OrganizationLayout({ children }: { children: React.React
             {/* shrink-0 hace que el tamanio del sidebar no cambie y se mantenga fijo */}
             <div className='w-64 shrink-0 hidden md:block'>
                 <Sidebar />
-                
             </div>
            {children} 
         </div>

@@ -7,6 +7,7 @@ import { Activity, CreditCard, Layout, Settings } from "lucide-react";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export type Organization = {
     id: string;
@@ -99,4 +100,16 @@ export function NavItem({ isExpanded, isActive, organization, onExpand }: NavIte
         </AccordionContent>
     </AccordionItem>
   )
+}
+
+/* Creamos este apartado para generar el esqueleto del item del sidebar */
+NavItem.Skeleton = function SkeletonNavItem() {
+    return (
+        <div className="flex items-center gap-x-2">
+            <div className="w-10 h-10 relative shrink-0">
+                <Skeleton className="h-full w-full absolute" />
+            </div>
+            <Skeleton className="h-10 w-full" />
+        </div>
+    )
 }
