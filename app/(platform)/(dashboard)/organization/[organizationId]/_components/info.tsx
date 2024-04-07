@@ -5,8 +5,14 @@ import { useOrganization } from "@clerk/nextjs"
 import { CreditCard } from "lucide-react"
 import Image from "next/image"
 
-export default function Info() {
 
+interface InfoProps {
+    isPro: boolean
+}
+
+export default function Info({ isPro }: InfoProps) {
+
+    // muestra la información de la organización en la que se encuentra el usuario
     const { organization, isLoaded } = useOrganization()
 
     if (!isLoaded) {
@@ -31,7 +37,7 @@ export default function Info() {
             </p>
             <div className="flex items-center text-xs text-muted-foreground">
                 <CreditCard className="h-3 w-3 mr-1" />
-                Free
+                {isPro ? "Pro" : "Free"}
             </div>
         </div>
     </div>

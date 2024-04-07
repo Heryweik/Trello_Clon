@@ -2,9 +2,11 @@
 
 import { auth } from "@clerk/nextjs"
 import { revalidatePath } from "next/cache"
+import { ACTION, ENTITY_TYPE } from "@prisma/client"
 
 import { db } from "@/lib/db"
 import { createSafeAction } from "@/lib/create-safe-action"
+import { createAuditLog } from "@/lib/create-audit-log"
 
 import { InputType, ReturnType } from "./types"
 import { CreateCard } from "./schema"
@@ -59,6 +61,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
                 listId,
                 order: newOrder,
             },
+        })
+
+        // Maneja el registro de cambios en la base de datos sobre las cards
+        await createAuditLog({
+            action: ACTION.CREATE,
+            entityId: card.id,
+            entityTitle: card.title,
+            entityType: ENTITY_TYPE.CARD,
         })
 
     } catch (error) {

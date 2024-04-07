@@ -9,6 +9,7 @@ import {
 import { useAction } from "@/hooks/use-action";
 import { createBoard } from "@/actions/create-board";
 import { useRouter } from "next/navigation";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 import { FormInput } from "./form-input";
 import { FormSubmit } from "./form-submit";
@@ -32,6 +33,8 @@ export default function FormPopover({
   sideOffset = 0,
 }: FormPopoverProps) {
 
+  const proModal = useProModal();
+
   /* Hacemos que se cierre el popover cuando se crea un nuevo board */
     const closeRef = useRef<ElementRef<"button">>(null);
     const router = useRouter();
@@ -44,6 +47,7 @@ export default function FormPopover({
         },
         onError: (error) => {
             toast.error(error);
+            proModal.onOpen();
         },
     });
 

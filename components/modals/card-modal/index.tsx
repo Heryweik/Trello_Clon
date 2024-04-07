@@ -6,10 +6,12 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useCardModal } from "@/hooks/use-card-modal";
 import { CardWithList } from "@/types";
 import { fetcher } from "@/lib/fetcher";
+import { AuditLog } from "@prisma/client";
 
 import Header from "./header";
 import Description from "./description";
 import Actions from "./actions";
+import Activity from "./activity";
 
 export default function CardModal() {
   // Obtiene el id de la tarjeta y si el modal está abierto o cerrado, esta informacion se obtiene del hook useCardModal, a este hook le enviamos el id desde el componenet card-item.tsx
@@ -24,6 +26,12 @@ export default function CardModal() {
     queryFn: () => fetcher(`/api/cards/${id}`),
   });
 
+  const { data: auditLogsData } = useQuery<AuditLog[]>({
+    // La key de la query es un array con el nombre de la query y el id de la tarjeta, el nombre de la query sirve para identificarla y el id de la tarjeta es necesario para hacer fetch a la url correcta
+    queryKey: ["card-logs", id],
+    queryFn: () => fetcher(`/api/cards/${id}/logs`),
+  });
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
@@ -35,6 +43,11 @@ export default function CardModal() {
                 <Description.Skeleton />
               ) : (
                 <Description data={cardData} />
+              )}
+              {!auditLogsData ? (
+                <Activity.Skeleton />
+              ) : (
+                <Activity items={auditLogsData} />
               )}
             </div>
           </div>
